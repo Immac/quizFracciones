@@ -5,8 +5,8 @@ class Operacion
 {
 private:
     Fraccion operando1;
-    Fraccion opernado2;
-    Fraccion resulrado;
+    Fraccion operando2;
+    Fraccion resultado;
     char operador; // + , - , * , /
 
 public:
@@ -16,14 +16,15 @@ public:
     Fraccion    getOperando1();
     Fraccion    getOperando2();
     char        getOperador();
+    Fraccion    getResultado();
 
     void        setOperando1(Fraccion f);
     void        setOperando2(Fraccion f);
     void        setOperador(char operador);
-    void        setOperacion(Fraccion op1, Fraccion op2);
-
+    void        setOperacion(Fraccion op1, Fraccion op2, char operador);
 
     void        calcularResultado();
+
 };
 
 #endif // OPERACION_H

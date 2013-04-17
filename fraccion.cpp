@@ -8,6 +8,8 @@ Fraccion::Fraccion(int num, int den){
     this->setFraccion(num,den);
 }
 
+
+
 int     Fraccion::getNumerador(){
         return this->numerador;
     }

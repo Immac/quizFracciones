@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     fraccion.cpp \
-    operacion.cpp
+    operacion.cpp \
+    testfraccion.cpp
 
 HEADERS  += mainwindow.h \
     fraccion.h \
-    operacion.h
+    operacion.h \
+    testfraccion.h
 
 FORMS    += mainwindow.ui
