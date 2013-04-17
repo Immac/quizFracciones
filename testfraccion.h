@@ -11,7 +11,7 @@ private:
     int vmenor_denominador;
     int vmayor_denominador;
 
-    Operacion *operaciones;
+    Operacion* *operaciones;
 
 public:
     TestFraccion();
