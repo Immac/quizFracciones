@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "operacion.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -50,14 +51,15 @@ void MainWindow::mitest(){
     qDebug()<< f3.toString();
     qDebug()<< f4.toString();
     */
-
+/*
     //=== Test 5; otras operaciones ==/
     Fraccion f9;
     f9.setFraccion(5,10);
     f9.simplificarEsto();
     qDebug() << f9.toString();
+*/
 
-
+/*
     //=== Test 6, comparadores ==//
 
     Fraccion f10;
@@ -86,8 +88,16 @@ void MainWindow::mitest(){
     qDebug() << f10.toString() << " Es menor a: " << f11.toString() <<
                 " ?";
     qDebug() << f10.esMenor(f11);
+*/
 
+    //=== Test 7, operacion ==/
+    Fraccion f1(1,2);
+    Fraccion f2(3,4);
 
+    Operacion operacion2;
+    Operacion operacion1(f1,f2,'/');
+
+    qDebug() << operacion1.getResultado().toString();
 
 
 }

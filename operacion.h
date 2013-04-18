@@ -11,6 +11,7 @@ private:
 
 public:
     Operacion();
+
     Operacion( Fraccion op1, Fraccion op2, char operador );
 
     Fraccion    getOperando1();

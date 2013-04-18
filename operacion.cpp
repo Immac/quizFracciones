@@ -5,6 +5,11 @@ Operacion::Operacion()
     calcularResultado();
 }
 
+Operacion::Operacion(Fraccion op1, Fraccion op2, char operador){
+    this->setOperacion(op1,op2,operador);
+}
+
+
 Fraccion Operacion::getOperando1(){
     return this->operando1;
 }
@@ -12,7 +17,7 @@ Fraccion Operacion::getOperando2(){
     return this->operando2;
 }
 
-Fraccion Operacion::getOperador(){
+char Operacion::getOperador(){
     return this->operador;
 }
 
