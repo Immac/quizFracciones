@@ -19,6 +19,9 @@ public:
     ~MainWindow();
     void mitest();
     
+private slots:
+    void on_pb_sumar_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

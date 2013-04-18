@@ -1,6 +1,7 @@
 #ifndef OPERACION_H
 #define OPERACION_H
 #include "fraccion.h"
+#include <QString>
 class Operacion
 {
 private:
@@ -18,7 +19,7 @@ public:
     Fraccion    getOperando2();
     char        getOperador();
     Fraccion    getResultado();
-
+    QString     toString();
     void        setOperando1(Fraccion f);
     void        setOperando2(Fraccion f);
     void        setOperador(char operador);

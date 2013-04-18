@@ -9,6 +9,14 @@ Operacion::Operacion(Fraccion op1, Fraccion op2, char operador){
     this->setOperacion(op1,op2,operador);
 }
 
+QString Operacion::toString(){
+    QString temp;
+    temp = operando1.toString() + " ";
+    temp += this->getOperador();
+    temp += " " + operando2.toString() + " ";
+    temp += " = " + resultado.toString();
+    return temp;
+}
 
 Fraccion Operacion::getOperando1(){
     return this->operando1;

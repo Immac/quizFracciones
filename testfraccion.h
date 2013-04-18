@@ -11,7 +11,8 @@ private:
     int vmenor_denominador;
     int vmayor_denominador;
 
-    Operacion* *operaciones;
+    Operacion *operaciones; // arreglo dinamico de operaciones
+    Fraccion* *respuestas;  //areglo dinamico de apuntadores a fraccion
 
 public:
     TestFraccion();

@@ -98,11 +98,29 @@ void MainWindow::mitest(){
     Operacion operacion1(f1,f2,'/');
 
     qDebug() << operacion1.getResultado().toString();
-
-
+    qDebug() << operacion2.toString();
+    qDebug() << operacion1.toString();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_pb_sumar_clicked()
+{
+  Fraccion f1,f2,f3;
+
+    f1.setNumerador(ui->le_num1->text().toInt());
+    f1.setDenominador(ui->le_den1->text().toInt());
+    f2.setNumerador(ui->le_num2->text().toInt());
+    f2.setDenominador(ui->le_den2->text().toInt());
+    f3.sumar(f1,f2);
+    f3.simplificarEsto();
+    QString numerador,denominador;
+    numerador.setNum(f3.getNumerador());
+    denominador.setNum(f3.getDenominador());
+
+    ui->le_res_num->setText(numerador);
+    ui->le_res_den->setText(denominador);
 }

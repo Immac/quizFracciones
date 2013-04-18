@@ -8,6 +8,10 @@ TestFraccion::TestFraccion(){
     this->vmenor_denominador=1;
     this->vmayor_numerador=10;
     this->vmenor_numerador=1;
-    this->operaciones = new Operacion*;
+    this->operaciones = new Operacion[10];
+    this->respuestas = new Fraccion*[10];
 
+    for(int i = 0 ; i < 10;i++){
+        this->respuestas[i] = 0;
+    }
 }
