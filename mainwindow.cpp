@@ -1,105 +1,52 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "operacion.h"
+#include <cstring>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
-    this->mitest();
+
+{   ui->setupUi(this);
+    //== Pantalla de inicio, indice 0 ==//
+    ui->stackedWidget->setCurrentIndex(0);
+
 }
 
+void MainWindow::init(){
 
-void MainWindow::mitest(){
-    /*
-    //=== Test 1 ===//
-    qDebug()<<"Testing";
-    Fraccion primera(2,3);
-    qDebug()<<"Denominador es:"<< primera.getDenominador();
-    qDebug()<<"Numerador es:"<< primera.getNumerador();
-    primera.setDenominador(0);
-    qDebug()<<"Denominador es: "<<primera.getDenominador();
-    primera.setDenominador(5);
-    qDebug()<<"Denominador es:" << primera.getDenominador();
-    */
-    /*
-    //=== Test 2; Suma ===//
-    Fraccion fraccion1(1,2);
-    Fraccion fraccion2(1,3);
-    fraccion1.sumar(fraccion2);
-    qDebug()<< fraccion1.getNumerador()<<"/"
-            << fraccion1.getDenominador();
-    */
-    /*
-    //=== Test 3; Suma, estilo Java ==/
-    Fraccion *Frac;
-    Frac = new Fraccion(5,6);
-    Frac->setDenominador(2);
+    this->miTest = 0;
+    this->currentOperacion = 0;
+    //this->renderOperacion(currentOperacion);
 
-    delete Frac;
-    */
-    //===Test 4; suma, estatica y normal ==/
-    /*
-    Fraccion f1(1,2);
-    Fraccion f2(1,3);
-    qDebug()<< f1.getNumerador() <<"/" << f1.getDenominador();
-    qDebug()<< f2.getNumerador() <<"/" << f2.getDenominador();
-    Fraccion f3,f4;
-    f3.sumar(f1,f2);
-    f4 = Fraccion::Sumar(f1,f2);
-    qDebug()<< f3.toString();
-    qDebug()<< f4.toString();
-    */
-/*
-    //=== Test 5; otras operaciones ==/
-    Fraccion f9;
-    f9.setFraccion(5,10);
-    f9.simplificarEsto();
-    qDebug() << f9.toString();
-*/
+}
 
-/*
-    //=== Test 6, comparadores ==//
+void MainWindow::createTest(){
+    //=== inicios ===//
+    int cuantas_operaciones =
+            this->ui->spin_NumeroDeOperaciones->value();
+    int time_en_minutos =
+            this->ui->spin_TiempoEnMinutos->value();
+    int dificultad =
+            this->ui->cbDificultad->currentIndex() + 1;
 
-    Fraccion f10;
-    Fraccion f11;
-    Fraccion f12;
-    f10.setFraccion(8,10);
-    f11.setFraccion(4,5);
-    f12.setFraccion(9,9) ;
 
-    qDebug() << f10.toString() << " Es igual a: " << f11.toString() <<
-                " ?";
-    qDebug() << f10.esIgual(f11);
+    //=== Inicializar el Test ===//
+    this->init();
+    this->miTest = new TestFraccion(cuantas_operaciones,
+                                    time_en_minutos,
+                                    dificultad ); // puede tener () o no;
+    this->renderOperacion(currentOperacion);
+    //=== Imprimir en el debug el test completo ==//
+    for( int i = 0; i < miTest->getCantidadDeOperaciones(); i++ ){
+        qDebug() << miTest->getOperacion(i).toString();
+    }
 
-    qDebug() << f12.toString() << " Es igual a: " << f11.toString() <<
-                " ?";
-    qDebug() << f12.esIgual(f11);
 
-    qDebug() << f12.toString() << " Es mayor a: " << f11.toString() <<
-                " ?";
-    qDebug() << f12.esMayor(f11);
 
-    qDebug() << f12.toString() << " Es menor a: " << f11.toString() <<
-                " ?";
-    qDebug() << f12.esMenor(f11);
 
-    qDebug() << f10.toString() << " Es menor a: " << f11.toString() <<
-                " ?";
-    qDebug() << f10.esMenor(f11);
-*/
-
-    //=== Test 7, operacion ==/
-    Fraccion f1(1,2);
-    Fraccion f2(3,4);
-
-    Operacion operacion2;
-    Operacion operacion1(f1,f2,'/');
-
-    qDebug() << operacion1.getResultado().toString();
-    qDebug() << operacion2.toString();
-    qDebug() << operacion1.toString();
 }
 
 MainWindow::~MainWindow()
@@ -107,20 +54,161 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pb_sumar_clicked()
+void MainWindow::destroyTest(){
+    delete this->miTest;
+    this->miTest = 0;
+}
+
+void MainWindow::on_pb_Start_clicked()
 {
-  Fraccion f1,f2,f3;
+    this->createTest();
+    this->renderOperacion(0);
+    ui->stackedWidget->setCurrentIndex(1);
+}
 
-    f1.setNumerador(ui->le_num1->text().toInt());
-    f1.setDenominador(ui->le_den1->text().toInt());
-    f2.setNumerador(ui->le_num2->text().toInt());
-    f2.setDenominador(ui->le_den2->text().toInt());
-    f3.sumar(f1,f2);
-    f3.simplificarEsto();
-    QString numerador,denominador;
-    numerador.setNum(f3.getNumerador());
-    denominador.setNum(f3.getDenominador());
+void MainWindow::on_pb_Inicio_clicked()
 
-    ui->le_res_num->setText(numerador);
-    ui->le_res_den->setText(denominador);
+{
+     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_pb_Enviar_clicked()
+{
+    double score;
+    int totalOperaciones,opCorrectas,opIncorrectas;
+    score = miTest->getScore();
+    totalOperaciones = miTest->getCantidadDeOperaciones();
+    opCorrectas = miTest->respuestasCorrectas();
+    opIncorrectas = miTest->respuestasIncorrectas();
+
+    QString temp1,temp2;
+
+    //=== Total de operaciones ===//
+    temp1 = "Total Operaciones: ";
+    temp2.setNum(totalOperaciones);
+    temp1 += temp2;
+    this->ui->lb_totalOperaciones->setText(temp1);
+    //===  Total de respuestas correctas ===//
+    temp1 = "Respuestas Correctas: ";
+    temp2.setNum(opCorrectas);
+    temp1 += temp2;
+    this->ui->lb_totalCorrectas->setText(temp1);
+    //=== Total de respuestas incorrectas ===//
+    temp1 = "Respuestas Incorrectas: ";
+    temp2.setNum(opIncorrectas);
+    temp1 += temp2;
+    this->ui->lb_totalIncorrectas->setText(temp1);
+    //=== Nota en % ===//
+    temp1 = "Nota en (%): ";
+    temp2.setNum(score);
+    temp1 += temp2 + "%";
+    this->ui->lb_nota->setText(temp1);
+
+
+    // TODO: puntajes antes de destruir el test
+
+    this->destroyTest();
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_pb_Cancelar_clicked()
+{
+    this->destroyTest();
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::renderOperacion(int cual){
+// TODO: todo lol;
+    Operacion operacion;
+    Fraccion f1,f2,r1;
+    QString temp;
+    char operador;
+    if (cual == 0){
+        this->ui->pb_prev->setDisabled(true);
+    } else {
+        this->ui->pb_prev->setDisabled(false);
+    }
+    int cant = miTest->getCantidadDeOperaciones();
+
+    if (cual == cant - 1){
+        this->ui->pb_next->setDisabled(true);
+    } else {
+        this->ui->pb_next->setDisabled(false);
+    }
+
+//== la operacion actual ==//
+    operacion = miTest->getOperacion(cual);
+    f1.setFraccion(operacion.getOperando1());
+    f2.setFraccion(operacion.getOperando2());
+
+//== Verificar si existe respuesta, y si existe se escribe ==//
+
+    if(miTest->getRespuesta(currentOperacion) != 0){
+
+        r1.setFraccion(miTest->getRespuesta(currentOperacion));
+
+        temp.setNum(r1.getNumerador());
+        ui->le_top->setText(temp);
+
+        temp.setNum(r1.getDenominador());
+        ui->le_bot->setText(temp);
+
+        qDebug() << miTest->getRespuesta(currentOperacion)->toString();
+    }else{
+        ui->le_top->setText("");
+        ui->le_bot->setText("");
+    }
+
+//== Escribir las dos primeras fracciones ==//
+    temp.setNum(f1.getNumerador());
+    this->ui->lbl_Numerador1->setText(temp);
+    temp.setNum(f1.getDenominador());
+    this->ui->lbl_Denominador1->setText(temp);
+    temp.setNum(f2.getNumerador());
+    this->ui->lbl_Numerador2->setText(temp);
+    temp.setNum(f2.getDenominador());
+    this->ui->lbl_Denominador2->setText(temp);
+//== Escribir el simbolo ==//
+    operador = operacion.getOperador();
+    temp = operador;
+    this->ui->lb_operador->setText(temp);
+}
+
+void MainWindow::on_pb_next_clicked(){
+    this->currentOperacion++;
+    this->renderOperacion(currentOperacion);
+}
+
+void MainWindow::on_pb_prev_clicked(){
+    this->currentOperacion--;
+    this->renderOperacion(currentOperacion);
+}
+
+void MainWindow::on_pb_ok_clicked(){
+    QString top,bot;
+    int inttop,intbot;
+    Fraccion f1;
+
+    top = ui->le_top->text();
+    bot = ui->le_bot->text();
+
+    inttop = top.toInt();
+    intbot = bot.toInt();
+
+    f1.setFraccion(inttop,intbot);
+
+    qDebug() << f1.toString();
+    // == Pick a shoe == //
+
+    miTest->setRespuesta(f1,this->currentOperacion);
+
+    //qDebug() <<miTest->getRespuesta(currentOperacion)->toString();
+
+
+}
+
+void MainWindow::on_pb_Shuffling_clicked()
+{
+    miTest->shuffle();
+    this->renderOperacion(this->currentOperacion);
 }

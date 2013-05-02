@@ -54,6 +54,26 @@ void    Operacion::setOperacion(Fraccion op1, Fraccion op2,
 
     calcularResultado();
 }
+void    Operacion::setOperacion(Operacion *operacion){
+    Fraccion op1,op2;
+    char operador;
+    op1.setFraccion(operacion->getOperando1());
+    op2.setFraccion(operacion->getOperando2());
+    operador = operacion->getOperador();
+
+    this->setOperacion(op1,op2,operador);
+
+
+}
+void    Operacion::setOperacion(Operacion operacion){
+    Fraccion op1,op2;
+    char operador;
+    op1.setFraccion(operacion.getOperando1());
+    op2.setFraccion(operacion.getOperando2());
+    operador = operacion.getOperador();
+
+    this->setOperacion(op1,op2,operador);
+}
 
 Fraccion Operacion::getResultado(){
     calcularResultado();

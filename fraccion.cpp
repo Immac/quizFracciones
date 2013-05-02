@@ -7,7 +7,9 @@ Fraccion::Fraccion(){
 Fraccion::Fraccion(int num, int den){
     this->setFraccion(num,den);
 }
-
+Fraccion::Fraccion(Fraccion *fraccion){
+    this->setFraccion(fraccion);
+}
 
 
 int     Fraccion::getNumerador(){
@@ -36,6 +38,10 @@ void    Fraccion::setFraccion(int num,int denom){
 
 void    Fraccion::setFraccion(Fraccion F){
     this->setFraccion(F.getNumerador(),F.getDenominador());
+}
+
+void    Fraccion::setFraccion(Fraccion* F){
+    this->setFraccion(F->getNumerador(),F->getDenominador());
 }
 
 void        Fraccion::sumar(Fraccion f){

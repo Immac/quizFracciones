@@ -16,6 +16,7 @@ private:
 public:
     Fraccion();
     Fraccion(int num,int den);
+    Fraccion(Fraccion* fraccion);
 
         QString toString();
         int getDenominador();
@@ -25,7 +26,7 @@ public:
         void        setDenominador(int nuevoDenom);
         void        setFraccion(int num,int denom);
         void        setFraccion(Fraccion F);
-
+        void        setFraccion(Fraccion* F);
         void sumar(Fraccion f);
         void sumar(Fraccion f1,Fraccion f2);
         static Fraccion Sumar(Fraccion f1, Fraccion f2);

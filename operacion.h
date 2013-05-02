@@ -24,7 +24,8 @@ public:
     void        setOperando2(Fraccion f);
     void        setOperador(char operador);
     void        setOperacion(Fraccion op1, Fraccion op2, char operador);
-
+    void        setOperacion(Operacion operacion);
+     void        setOperacion(Operacion* operacion);
     void        calcularResultado();
 
 };
